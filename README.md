@@ -1,6 +1,6 @@
 # Shuttle.NuGetPackager
 
-VS2017+ extension used to configure JSE projects for Nuget packaging.
+VS2017+ extension used to configure class library projects for Nuget packaging.
 
 ***Note***: This extension should only be applied to Visual Studio files that are in the new SDK format.
 
