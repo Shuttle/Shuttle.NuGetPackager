@@ -17,14 +17,13 @@
   </Target>
 
   <Target Name="Version">
-    <Prompt Text="Enter semantic version:" Condition="$(SemanticVersionValue) == ''">
-      <Output TaskParameter="UserInput" PropertyName="SemanticVersionValue" />
+    <Prompt Text="Enter semantic version:" Condition="$(SemanticVersion) == ''">
+      <Output TaskParameter="UserInput" PropertyName="SemanticVersion" />
     </Prompt>
 
-    <Error Text="Please enter a version number." Condition="$(SemanticVersionValue) == ''" />
+    <Error Text="Please enter a version number." Condition="$(SemanticVersion) == ''" />
 
-    <SemanticVersion Value="$(SemanticVersionValue)">
-      <Output TaskParameter="Version" PropertyName="SemanticVersion" />
+    <SemanticVersion Value="$(SemanticVersion)">
       <Output TaskParameter="VersionCore" PropertyName="SemanticVersionCore" />
       <Output TaskParameter="Prerelease" PropertyName="SemanticVersionPrerelease" />
       <Output TaskParameter="BuildMetadata" PropertyName="SemanticVersionBuildMetadata" />
@@ -46,7 +45,7 @@
     <RegexFindAndReplace Files="package.nuspec" FindExpression="#\{Year\}#"
                          ReplacementText="$([System.DateTime]::Now.ToString(`yyyy`))" />
 
-    <SetNugetPackageVersions Files="package.nuspec" ProjectFile="..\$(PackageName).csproj" />
+    <SetNuGetPackageVersions Files="package.nuspec" ProjectFile="..\$(PackageName).csproj" />
   </Target>
 
   <Target Name="Pack" DependsOnTargets="Build">
@@ -55,13 +54,13 @@
       Condition="!Exists('package.nuspec')" />
 
     <ItemGroup>
-      <NugetBinaries Include="..\bin\$(Configuration)\**\$(PackageName).dll" />
+      <NuGetBinaries Include="..\bin\$(Configuration)\**\$(PackageName).dll" />
     </ItemGroup>
 
     <RemoveDir Directories="release" />
 
     <Copy SourceFiles="package.nuspec" DestinationFolder="release\" SkipUnchangedFiles="false" />
-    <Copy SourceFiles="@(NugetBinaries)" DestinationFolder="release\lib\%(RecursiveDir)" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="@(NuGetBinaries)" DestinationFolder="release\lib\%(RecursiveDir)" SkipUnchangedFiles="false" />
 
     <Exec Command="nuget pack release\package.nuspec -OutputDirectory release -NoPackageAnalysis" />
   </Target>
@@ -86,18 +85,18 @@
       <PackageFile Include="release\$(PackageName).*.nupkg" />
     </ItemGroup>
 
-    <MakeDir Directories="$(NugetPackageSourceFolder)" Condition="$(NugetPackageSourceFolder) != ''" />
+    <MakeDir Directories="$(NuGetPackageSourceFolder)" Condition="$(NuGetPackageSourceFolder) != ''" />
 
     <Copy
       SourceFiles="@(PackageFile)"
-      DestinationFolder="$(NugetPackageSourceFolder)"
+      DestinationFolder="$(NuGetPackageSourceFolder)"
       SkipUnchangedFiles="false"
-      Condition="$(NugetPackageSourceFolder) != ''" />
+      Condition="$(NuGetPackageSourceFolder) != ''" />
   </Target>
 
-  <Target Name="Flush"  Condition="$(NugetPackageSourceFolder) != ''">
+  <Target Name="Flush"  Condition="$(NuGetPackageSourceFolder) != ''">
     <ItemGroup>
-      <PackageFile Include="$(NugetPackageSourceFolder)\$(PackageName).*.nupkg" />
+      <PackageFile Include="$(NuGetPackageSourceFolder)\$(PackageName).*.nupkg" />
     </ItemGroup>
 
     <Delete Files="@(PackageFile)" />

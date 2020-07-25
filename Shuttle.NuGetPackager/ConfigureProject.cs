@@ -7,7 +7,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Shuttle.NuGetPackager.VSIX
+namespace Shuttle.NuGetPackager
 {
     internal sealed class ConfigureProject
     {
@@ -47,15 +47,12 @@ namespace Shuttle.NuGetPackager.VSIX
             var invoked = false;
 
             var dte = (DTE) ServiceProvider.GetService(typeof(DTE));
-            var activeSolutionProjects = dte.ActiveSolutionProjects as object[];
 
-            if (activeSolutionProjects != null)
+            if (dte.ActiveSolutionProjects is object[] activeSolutionProjects)
             {
                 foreach (var activeSolutionProject in activeSolutionProjects)
                 {
-                    var project = activeSolutionProject as Project;
-
-                    if (project != null)
+                    if (activeSolutionProject is Project project)
                     {
                         invoked = true;
 
@@ -104,8 +101,8 @@ namespace Shuttle.NuGetPackager.VSIX
 
                 CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll");
                 CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.targets");
-                ProcessBuildRelatedFile(project, packageFolder, "package.msbuild.template", "package.msbuild");
-                ProcessBuildRelatedFile(project, packageFolder, "AssemblyInfo.cs.template", "AssemblyInfo.cs.template");
+                ProcessBuildRelatedFile(project, view, packageFolder, "package.msbuild.template", "package.msbuild");
+                ProcessBuildRelatedFile(project, view, packageFolder, "AssemblyInfo.cs.template", "AssemblyInfo.cs.template");
 
                 File.WriteAllText(Path.Combine(packageFolder, "package.nuspec.template"), GetNuspecTemplate(view, project));
                 File.WriteAllText(Path.Combine(packageFolder, "package.nuspec"), @"<!-- WILL BE POPULATED ON RELEASE -->");
@@ -140,7 +137,7 @@ namespace Shuttle.NuGetPackager.VSIX
             result.AppendLine($"\t\t<authors>{view.Authors.Text}</authors>");
             result.AppendLine($"\t\t<owners>{view.Owners.Text}</owners>");
 
-            switch (view.LicenseType.SelectedText)
+            switch ((string)view.LicenseType.SelectedItem)
             {
                 case "Expression":
                 {
@@ -156,17 +153,17 @@ namespace Shuttle.NuGetPackager.VSIX
 
             if (view.LicenseType.SelectedIndex > 0)
             {
-                result.AppendLine($"\t\t<requireLicenseAcceptance>{view.RequireLicenseAcceptance}</requireLicenseAcceptance>");
+                result.AppendLine($"\t\t<requireLicenseAcceptance>{view.RequireLicenseAcceptance.Checked.ToString().ToLower()}</requireLicenseAcceptance>");
             }
 
             if (view.HasIcon.Checked)
             {
-                result.AppendLine($"<icon>images\\{Path.GetFileName(view.IconPath.Text)}</icon>");
+                result.AppendLine($"\t\t<icon>images\\{Path.GetFileName(view.IconPath.Text)}</icon>");
             }
 
             if (!string.IsNullOrWhiteSpace(view.RepositoryUrl.Text))
             {
-                result.AppendLine($"\t\t<repository type=\"git\" url=\"{view.RepositoryUrl.Text}\"");
+                result.AppendLine($"\t\t<repository type=\"git\" url=\"{view.RepositoryUrl.Text}\" />");
             }
 
             if (!string.IsNullOrWhiteSpace(view.ProjectUrl.Text))
@@ -189,7 +186,7 @@ namespace Shuttle.NuGetPackager.VSIX
                 result.AppendLine($"\t\t<file src=\"{view.IconPath.Text}\" target=\"images\" />");
             }
 
-            if (view.LicenseType.SelectedText.Equals("File", StringComparison.InvariantCultureIgnoreCase))
+            if (((string)view.LicenseType.SelectedItem).Equals("File", StringComparison.InvariantCultureIgnoreCase))
             {
                 result.AppendLine($"\t\t<file src=\"{view.License.Text}\" target=\"\" />");
             }
@@ -261,6 +258,7 @@ namespace Shuttle.NuGetPackager.VSIX
             }
             catch
             {
+                // ignore
             }
         }
 
@@ -279,7 +277,7 @@ namespace Shuttle.NuGetPackager.VSIX
             }
         }
 
-        private static void ProcessBuildRelatedFile(Project project, string packageFolder, string sourceFileName, string targetFileName)
+        private static void ProcessBuildRelatedFile(Project project, ConfigureView view, string packageFolder, string sourceFileName, string targetFileName)
         {
             var targetPath = Path.Combine(packageFolder, targetFileName);
 
@@ -292,7 +290,11 @@ namespace Shuttle.NuGetPackager.VSIX
 
             var packageName = project.Name;
 
-            File.WriteAllText(targetPath, File.ReadAllText(targetPath).Replace("#{PackageName}#", packageName));
+            var contents = File.ReadAllText(targetPath)
+                .Replace("#{PackageName}#", packageName)
+                .Replace("#{Owners}#", string.IsNullOrWhiteSpace(view.Owners.Text) ? view.Authors.Text : view.Owners.Text);
+
+            File.WriteAllText(targetPath, contents);
         }
     }
 }

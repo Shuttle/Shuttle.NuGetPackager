@@ -9,7 +9,7 @@ using Shuttle.NuGetPackager.MSBuild.NuGet;
 namespace Shuttle.NuGetPackager.Tests
 {
     [TestFixture]
-    public class SetNugetPackageVersionsFixture
+    public class SetNuGetPackageVersionsFixture
     {
         [Test]
         public void Should_be_able_to_set_nuget_dependency_versions_using_custom_values()

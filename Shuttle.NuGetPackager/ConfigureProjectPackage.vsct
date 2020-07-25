@@ -56,7 +56,7 @@
         <Parent guid="guidConfigureProjectPackageCmdSet" id="JSEMSBuildMenuGroup" />
         <Icon guid="guidImages" id="JSEPNG" />
         <Strings>
-          <ButtonText>Configure Nuget Class Library Project</ButtonText>
+          <ButtonText>Configure NuGet Class Library Project</ButtonText>
         </Strings>
       </Button>
     </Buttons>

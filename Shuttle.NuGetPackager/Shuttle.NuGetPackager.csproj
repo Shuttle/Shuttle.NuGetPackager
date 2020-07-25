@@ -66,10 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".package\package.nuspec.template">
-      <VSIXSubPath>.package</VSIXSubPath>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include=".package\Shuttle.NuGetPackager.MSBuild.dll">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

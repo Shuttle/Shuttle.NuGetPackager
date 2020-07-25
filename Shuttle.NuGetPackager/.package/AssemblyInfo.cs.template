@@ -14,9 +14,9 @@ using System.Runtime.InteropServices;
 #endif
 
 [assembly: AssemblyVersion("#{SemanticVersionCore}#.0")]
-[assembly: AssemblyCopyright("Copyright (c) #{Year}#, #{Owners#}")]
+[assembly: AssemblyCopyright("Copyright (c) #{Year}#, #{Owners}#")]
 [assembly: AssemblyProduct("#{PackageName}#")]
-[assembly: AssemblyCompany("#{Owners}$")]
+[assembly: AssemblyCompany("#{Owners}#")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyInformationalVersion("#{SemanticVersion}#")]
 [assembly: ComVisible(false)]
