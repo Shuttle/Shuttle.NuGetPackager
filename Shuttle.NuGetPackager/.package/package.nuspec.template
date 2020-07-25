@@ -1,0 +1,29 @@
+﻿<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>#{PackageName}#</id>
+    <version>#{SemanticVersion}#</version>
+    <authors>#{Authors}#</authors>
+    <owners>#{Owners}#</owners>
+    #{License}#
+    <license type="expression">BSD-3-Clause</license>
+    #{Repository}#
+    <repository type="git" url="https://github.com/Shuttle/Shuttle.Abacus.git" />
+    #{Icon}#
+    <icon>images\logo.png</icon>
+    <requireLicenseAcceptance>#{RequireLicenseAcceptance}#</requireLicenseAcceptance>
+    <description>#{Description}#</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright (c) #{Year}#, #{Owners#}</copyright>
+    <tags>#{Tags}#</tags>
+    <dependencies>
+#{Dependencies}#
+    </dependencies>
+  </metadata>
+  <files>
+    #{IconPath#}
+    <file src="..\..\.media\logo.png" target="images\" />
+    <file src="lib\**\*.*" target="lib" />
+  </files>
+</package>
