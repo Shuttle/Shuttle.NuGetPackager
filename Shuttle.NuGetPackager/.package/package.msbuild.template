@@ -72,7 +72,7 @@
       Properties="SemanticVersion=$(SemanticVersion)" />
 
     <Exec
-      Command="nuget push $(DeploymentFolder)\nuget\$(PackageName).$(SemanticVersion).nupkg -source $(PackageSource)" />
+      Command="nuget push release\$(PackageName).$(SemanticVersion).nupkg -source $(PackageSource)" />
   </Target>
 
   <Target Name="Bump" DependsOnTargets="Version">
@@ -94,11 +94,13 @@
       Condition="$(NuGetPackageSourceFolder) != ''" />
   </Target>
 
-  <Target Name="Flush"  Condition="$(NuGetPackageSourceFolder) != ''">
+  <Target Name="Flush">
     <ItemGroup>
-      <PackageFile Include="$(NuGetPackageSourceFolder)\$(PackageName).*.nupkg" />
+      <PackageSourceFolderFile Include="$(NuGetPackageSourceFolder)\$(PackageName).*.nupkg" />
+      <CacheFile Include="$(UserProfile)\$(PackageName).*.nupkg" />
     </ItemGroup>
 
-    <Delete Files="@(PackageFile)" />
+    <Delete Files="@(PackageSourceFolderFile)" Condition="$(NuGetPackageSourceFolder) != ''" />
+    <Delete Files="@(CacheFile)" />
   </Target>
 </Project>

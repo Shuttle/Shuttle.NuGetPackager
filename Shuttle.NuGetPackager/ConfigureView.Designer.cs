@@ -65,7 +65,6 @@
             this.PackageName.Name = "PackageName";
             this.PackageName.Size = new System.Drawing.Size(240, 20);
             this.PackageName.TabIndex = 1;
-            this.PackageName.Text = "#{PackageName}#";
             // 
             // ExplicitPackageName
             // 
