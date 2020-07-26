@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-  <Metadata>
-    <Identity Id="64130770-3ABC-491E-B331-CB2A3D283AD0" Version="1.0" Language="en-US" Publisher="Shuttle" />
-    <DisplayName>Shuttle.NuGetPackager</DisplayName>
-    <Description xml:space="preserve">Visual Studio extension used to configure a class library project for NuGet package development.  The project must be in the new SDK format.  Create a .Net Core project and then change the `TargetFramework` in the .csproj file if you need to target .Net proper.</Description>
-    <Icon>favicon-96x96.png</Icon>
-    <PreviewImage>ms-icon-144x144.png</PreviewImage>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0]" />
-  </Installation>
-  <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-  </Dependencies>
-  <Prerequisites>
-    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
-  </Prerequisites>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-  </Assets>
+    <Metadata>
+        <Identity Id="64130770-3ABC-491E-B331-CB2A3D283AD0" Version="1.1" Language="en-US" Publisher="Shuttle" />
+        <DisplayName>Shuttle.NuGetPackager</DisplayName>
+        <Description xml:space="preserve">Visual Studio extension used to configure a C# class library project for NuGet package development.  The project must be in the new SDK format.  Create a .Net Core project and then change the `TargetFramework` in the .csproj file if you need to target .Net proper.</Description>
+        <Icon>favicon-96x96.png</Icon>
+        <PreviewImage>ms-icon-144x144.png</PreviewImage>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0]" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
 </PackageManifest>

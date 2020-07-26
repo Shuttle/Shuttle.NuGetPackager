@@ -36,7 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidConfigureProjectPackageCmdSet" id="JSEMSBuildMenuGroup" priority="0x0600">
+      <Group guid="guidConfigureProjectPackageCmdSet" id="ShuttlePackageMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
       </Group>
     </Groups>
@@ -53,10 +53,10 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidConfigureProjectPackageCmdSet" id="ConfigureProjectId" priority="0x0100" type="Button">
-        <Parent guid="guidConfigureProjectPackageCmdSet" id="JSEMSBuildMenuGroup" />
-        <Icon guid="guidImages" id="JSEPNG" />
+        <Parent guid="guidConfigureProjectPackageCmdSet" id="ShuttlePackageMenuGroup" />
+        <Icon guid="guidImages" id="LOGOPNG" />
         <Strings>
-          <ButtonText>Configure NuGet Class Library Project</ButtonText>
+          <ButtonText>Configure NuGet Project</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -68,7 +68,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\ConfigureProject.png" usedList="JSEPNG"/>
+      <Bitmap guid="guidImages" href="Resources\ConfigureProject.png" usedList="LOGOPNG"/>
     </Bitmaps>
   </Commands>
 
@@ -78,12 +78,12 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidConfigureProjectPackageCmdSet" value="{aa40f306-40eb-446d-a5bb-1b89031eeba0}">
-      <IDSymbol name="JSEMSBuildMenuGroup" value="0x1020" />
+      <IDSymbol name="ShuttlePackageMenuGroup" value="0x1020" />
       <IDSymbol name="ConfigureProjectId" value="0x0100" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{7f7b82fa-0f6f-4e80-a3bd-dd4d50c68aad}" >
-      <IDSymbol name="JSEPNG" value="1" />
+      <IDSymbol name="LOGOPNG" value="1" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

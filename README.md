@@ -1,6 +1,6 @@
 # Shuttle.NuGetPackager
 
-This VS2017+ extension is used to configure a class library project for NuGet packaging allowing you to manage the versioning package.
+This VS2017+ extension is used to configure a C# class library project for NuGet packaging allowing you to manage the versioning package.
 
 ***Note***: This extension should only be applied to Visual Studio files that are in the new SDK format.
 
@@ -10,7 +10,7 @@ You can download this extntion from the [Visual Studio Marketplace](https://mark
 
 ## Usage
 
-By accessing the context menu of a class library project you select `Configure NuGet Class Library Project` which will create a `.package` folder containing:
+By accessing the context menu of a C# class library project you select `Configure NuGet Class Library Project` which will create a `.package` folder containing:
 
 - `package.msbuild`
 - `Shuttle.NuGetPackager.targets`
@@ -46,6 +46,19 @@ The following tags are replaced:
 | #{SemanticVersionCore}# | $(SemanticVersionCore) |
 | #{SemanticVersion}# | $(SemanticVersion) |
 | #{Year}# | $([System.DateTime]::Now.ToString(`yyyy`)) |
+
+The `package.nuspec` file will also update `#{Dependencies}#` with all the dependencies located in the `.csproj` file.
+
+Should you require more control over the dependencies the following structure may be used:
+
+```
+<dependencies>
+	<dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
+	<dependency id="Shuttle.Core.Data" version="{Shuttle.Core.Data-version}" />
+</dependencies>
+```
+
+All `{PackageName-version}` tags will be replaced by the version referenced in the `.csproj` file.
 
 ### Build
 

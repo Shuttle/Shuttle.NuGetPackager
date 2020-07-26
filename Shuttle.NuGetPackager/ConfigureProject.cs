@@ -11,6 +11,7 @@ namespace Shuttle.NuGetPackager
 {
     internal sealed class ConfigureProject
     {
+        const string Title = "Configure NuGet Project";
         public const int CommandId = 0x0100;
         public static readonly Guid CommandSet = new Guid("aa40f306-40eb-446d-a5bb-1b89031eeba0");
         private static string _extensionPath;
@@ -43,7 +44,6 @@ namespace Shuttle.NuGetPackager
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            const string title = "Configure NuGet Project";
             var invoked = false;
 
             var dte = (DTE) ServiceProvider.GetService(typeof(DTE));
@@ -66,7 +66,7 @@ namespace Shuttle.NuGetPackager
                 VsShellUtilities.ShowMessageBox(
                     ServiceProvider,
                     "This command may only be executed on a project.",
-                    title,
+                    Title,
                     OLEMSGICON.OLEMSGICON_INFO,
                     OLEMSGBUTTON.OLEMSGBUTTON_OK,
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
@@ -82,6 +82,22 @@ namespace Shuttle.NuGetPackager
                 throw new ApplicationException("Could not determine project path.");
             }
 
+            var packageFolderProjectItem = FindFolder(project, ".package");
+            var packageFolder = Path.Combine(projectFolder, ".package");
+
+            if (Directory.Exists(packageFolder))
+            {
+                VsShellUtilities.ShowMessageBox(
+                    ServiceProvider,
+                    $"Package folder '{packageFolder}' already exists.",
+                    Title,
+                    OLEMSGICON.OLEMSGICON_INFO,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+
+                return;
+            }
+
             var view = new ConfigureView();
 
             try
@@ -90,9 +106,6 @@ namespace Shuttle.NuGetPackager
                 {
                     return;
                 }
-
-                var packageFolderProjectItem = FindFolder(project, ".package");
-                var packageFolder = Path.Combine(projectFolder, ".package");
 
                 if (packageFolderProjectItem == null)
                 {
@@ -105,14 +118,12 @@ namespace Shuttle.NuGetPackager
                 ProcessBuildRelatedFile(project, view, packageFolder, "AssemblyInfo.cs.template", "AssemblyInfo.cs.template");
 
                 File.WriteAllText(Path.Combine(packageFolder, "package.nuspec.template"), GetNuspecTemplate(view, project));
-                File.WriteAllText(Path.Combine(packageFolder, "package.nuspec"), @"<!-- WILL BE POPULATED ON RELEASE -->");
 
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll"));
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "Shuttle.NuGetPackager.targets"));
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.msbuild"));
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.nuspec.template"));
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "AssemblyInfo.cs.template"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.nuspec"));
 
                 project.Save();
 
@@ -137,7 +148,7 @@ namespace Shuttle.NuGetPackager
             result.AppendLine($"\t\t<authors>{view.Authors.Text}</authors>");
             result.AppendLine($"\t\t<owners>{view.Owners.Text}</owners>");
 
-            switch ((string)view.LicenseType.SelectedItem)
+            switch ((string)view.LicenseType.SelectedItem ?? string.Empty)
             {
                 case "Expression":
                 {
@@ -186,7 +197,7 @@ namespace Shuttle.NuGetPackager
                 result.AppendLine($"\t\t<file src=\"{view.IconPath.Text}\" target=\"images\" />");
             }
 
-            if (((string)view.LicenseType.SelectedItem).Equals("File", StringComparison.InvariantCultureIgnoreCase))
+            if (((string)view.LicenseType.SelectedItem ?? string.Empty).Equals("File", StringComparison.InvariantCultureIgnoreCase))
             {
                 result.AppendLine($"\t\t<file src=\"{view.License.Text}\" target=\"\" />");
             }
