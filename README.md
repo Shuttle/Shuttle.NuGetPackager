@@ -10,7 +10,7 @@ You can download this extntion from the [Visual Studio Marketplace](https://mark
 
 ## Usage
 
-By accessing the context menu of a C# class library project you select `Configure NuGet Class Library Project` which will create a `.package` folder containing:
+By accessing the context menu of a C# class library project you select `Configure NuGet Project` which will create a `.package` folder containing:
 
 - `package.msbuild`
 - `Shuttle.NuGetPackager.targets`
