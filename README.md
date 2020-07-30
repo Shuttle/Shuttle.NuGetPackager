@@ -37,9 +37,7 @@ You will be prompted for the `SemanticVersion` if not specified.  This is parsed
 - `SemanticVersionPrerelease`: `prerelease`
 - `SemanticVersionBuildMetadata`: `buildmetadata`
 
-These parameters a replacement values for tags in the `AssemblyInfo.cs.template` and `package.nuspec.template` files.
-
-The following tags are replaced:
+These parameters are replacement values for tags in the `AssemblyInfo.cs.template` and `package.nuspec.template` files:
 
 | Tag | Property / Value |
 | --- | --- |
