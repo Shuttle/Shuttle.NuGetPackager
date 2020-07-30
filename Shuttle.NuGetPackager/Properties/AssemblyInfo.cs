@@ -13,9 +13,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle(".NET Standard")]
 #endif
 
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
 [assembly: AssemblyCopyright("Copyright © Shuttle 2020")]
-[assembly: AssemblyProduct("Shuttle.NuGetPackager.VSIX")]
+[assembly: AssemblyProduct("Shuttle.NuGetPackager")]
 [assembly: AssemblyCompany("Shuttle")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyInformationalVersion("1.0.0")]

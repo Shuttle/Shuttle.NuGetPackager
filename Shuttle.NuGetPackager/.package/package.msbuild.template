@@ -96,11 +96,9 @@
 
   <Target Name="Flush">
     <ItemGroup>
-      <PackageSourceFolderFile Include="$(NuGetPackageSourceFolder)\$(PackageName).*.nupkg" />
-      <CacheFile Include="$(UserProfile)\$(PackageName).*.nupkg" />
+      <PackageFolder Include="$(UserProfile)\.nuget\packages\$(PackageName)" />
     </ItemGroup>
 
-    <Delete Files="@(PackageSourceFolderFile)" Condition="$(NuGetPackageSourceFolder) != ''" />
-    <Delete Files="@(CacheFile)" />
+    <RemoveDir Directories="@(PackageFolder)" />
   </Target>
 </Project>

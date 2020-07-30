@@ -100,7 +100,11 @@ If no `$(NuGetPackageSourceFolder)` property exists then the file isn't copied. 
 
 A useful workflow is to create a local package folder abd have the `NuGetPackageSourceFolder` environment variable point to that folder.  You then `bump` the package and test is locally.  Once you are happy with the package you can then commit the changes.
 
-###
+### Flush
+
+Removes the folder package (`%UserProfile%\.nuget\packages\{PackageName}`) from the NuGet cache.
+
+This is useful during development when you wish to stick on the same version and have your dependent project make use of the latest build.
 
 ## Shuttle.NuGetPackager.MSBuild
 
