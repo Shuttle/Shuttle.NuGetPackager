@@ -55,6 +55,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.ProjectUrl = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ReadmePath = new System.Windows.Forms.TextBox();
+            this.HasReadme = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -128,18 +131,18 @@
             // 
             // Tags
             // 
-            this.Tags.Location = new System.Drawing.Point(272, 224);
+            this.Tags.Location = new System.Drawing.Point(272, 272);
             this.Tags.Name = "Tags";
             this.Tags.Size = new System.Drawing.Size(240, 20);
-            this.Tags.TabIndex = 19;
+            this.Tags.TabIndex = 24;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(272, 208);
+            this.label4.Location = new System.Drawing.Point(272, 256);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 13);
-            this.label4.TabIndex = 18;
+            this.label4.TabIndex = 23;
             this.label4.Text = "Tags";
             // 
             // label5
@@ -148,7 +151,7 @@
             this.label5.Location = new System.Drawing.Point(272, 16);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(71, 13);
-            this.label5.TabIndex = 10;
+            this.label5.TabIndex = 12;
             this.label5.Text = "License Type";
             // 
             // LicenseLabel
@@ -157,7 +160,7 @@
             this.LicenseLabel.Location = new System.Drawing.Point(272, 64);
             this.LicenseLabel.Name = "LicenseLabel";
             this.LicenseLabel.Size = new System.Drawing.Size(44, 13);
-            this.LicenseLabel.TabIndex = 12;
+            this.LicenseLabel.TabIndex = 14;
             this.LicenseLabel.Text = "License";
             // 
             // LicenseType
@@ -171,7 +174,7 @@
             this.LicenseType.Location = new System.Drawing.Point(272, 32);
             this.LicenseType.Name = "LicenseType";
             this.LicenseType.Size = new System.Drawing.Size(240, 21);
-            this.LicenseType.TabIndex = 11;
+            this.LicenseType.TabIndex = 13;
             this.LicenseType.SelectedIndexChanged += new System.EventHandler(this.LicenseType_SelectedIndexChanged);
             // 
             // License
@@ -180,7 +183,7 @@
             this.License.Location = new System.Drawing.Point(272, 80);
             this.License.Name = "License";
             this.License.Size = new System.Drawing.Size(240, 20);
-            this.License.TabIndex = 13;
+            this.License.TabIndex = 15;
             // 
             // IconPath
             // 
@@ -188,15 +191,15 @@
             this.IconPath.Location = new System.Drawing.Point(272, 176);
             this.IconPath.Name = "IconPath";
             this.IconPath.Size = new System.Drawing.Size(240, 20);
-            this.IconPath.TabIndex = 17;
+            this.IconPath.TabIndex = 19;
             // 
             // HasIcon
             // 
             this.HasIcon.AutoSize = true;
-            this.HasIcon.Location = new System.Drawing.Point(272, 128);
+            this.HasIcon.Location = new System.Drawing.Point(272, 159);
             this.HasIcon.Name = "HasIcon";
             this.HasIcon.Size = new System.Drawing.Size(75, 17);
-            this.HasIcon.TabIndex = 15;
+            this.HasIcon.TabIndex = 17;
             this.HasIcon.Text = "Has Icon?";
             this.HasIcon.UseVisualStyleBackColor = true;
             this.HasIcon.CheckedChanged += new System.EventHandler(this.HasIcon_CheckedChanged);
@@ -204,19 +207,19 @@
             // Cancel
             // 
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Location = new System.Drawing.Point(432, 304);
+            this.Cancel.Location = new System.Drawing.Point(432, 316);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(80, 32);
-            this.Cancel.TabIndex = 23;
+            this.Cancel.TabIndex = 26;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
             // Ok
             // 
-            this.Ok.Location = new System.Drawing.Point(336, 304);
+            this.Ok.Location = new System.Drawing.Point(336, 316);
             this.Ok.Name = "Ok";
             this.Ok.Size = new System.Drawing.Size(80, 32);
-            this.Ok.TabIndex = 22;
+            this.Ok.TabIndex = 25;
             this.Ok.Text = "Ok";
             this.Ok.UseVisualStyleBackColor = true;
             this.Ok.Click += new System.EventHandler(this.OkButton_Click);
@@ -231,18 +234,18 @@
             this.RequireLicenseAcceptance.Location = new System.Drawing.Point(272, 112);
             this.RequireLicenseAcceptance.Name = "RequireLicenseAcceptance";
             this.RequireLicenseAcceptance.Size = new System.Drawing.Size(165, 17);
-            this.RequireLicenseAcceptance.TabIndex = 14;
+            this.RequireLicenseAcceptance.TabIndex = 16;
             this.RequireLicenseAcceptance.Text = "Require license acceptance?";
             this.RequireLicenseAcceptance.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(272, 160);
+            this.label6.Location = new System.Drawing.Point(464, 159);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(72, 13);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "Icon File Path";
+            this.label6.Size = new System.Drawing.Size(48, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "File Path";
             // 
             // RepositoryUrl
             // 
@@ -262,19 +265,47 @@
             // 
             // ProjectUrl
             // 
-            this.ProjectUrl.Location = new System.Drawing.Point(272, 272);
+            this.ProjectUrl.Location = new System.Drawing.Point(16, 316);
             this.ProjectUrl.Name = "ProjectUrl";
             this.ProjectUrl.Size = new System.Drawing.Size(240, 20);
-            this.ProjectUrl.TabIndex = 21;
+            this.ProjectUrl.TabIndex = 11;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(272, 256);
+            this.label8.Location = new System.Drawing.Point(16, 300);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 13);
-            this.label8.TabIndex = 20;
+            this.label8.TabIndex = 10;
             this.label8.Text = "Project Url";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(464, 207);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(48, 13);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "File Path";
+            // 
+            // ReadmePath
+            // 
+            this.ReadmePath.Enabled = false;
+            this.ReadmePath.Location = new System.Drawing.Point(272, 224);
+            this.ReadmePath.Name = "ReadmePath";
+            this.ReadmePath.Size = new System.Drawing.Size(240, 20);
+            this.ReadmePath.TabIndex = 22;
+            // 
+            // HasReadMe
+            // 
+            this.HasReadme.AutoSize = true;
+            this.HasReadme.Location = new System.Drawing.Point(272, 207);
+            this.HasReadme.Name = "HasReadme";
+            this.HasReadme.Size = new System.Drawing.Size(117, 17);
+            this.HasReadme.TabIndex = 20;
+            this.HasReadme.Text = "Has README.md?";
+            this.HasReadme.UseVisualStyleBackColor = true;
+            this.HasReadme.CheckedChanged += new System.EventHandler(this.HasReadme_CheckedChanged);
             // 
             // ConfigureView
             // 
@@ -282,7 +313,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
-            this.ClientSize = new System.Drawing.Size(529, 354);
+            this.ClientSize = new System.Drawing.Size(529, 364);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.ReadmePath);
+            this.Controls.Add(this.HasReadme);
             this.Controls.Add(this.ProjectUrl);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.RepositoryUrl);
@@ -344,5 +378,8 @@
         private System.Windows.Forms.Label label8;
         public System.Windows.Forms.TextBox RepositoryUrl;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label9;
+        public System.Windows.Forms.TextBox ReadmePath;
+        public System.Windows.Forms.CheckBox HasReadme;
     }
 }

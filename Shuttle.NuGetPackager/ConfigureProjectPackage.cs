@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
 
-namespace Shuttle.NuGetPackager.VSIX
+namespace Shuttle.NuGetPackager
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(PackageGuidString)]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    [ProvideService(typeof(ConfigureProjectPackage), IsAsyncQueryable = true)]
-    [ProvideAutoLoad(PackageGuidString, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class ConfigureProjectPackage : AsyncPackage
     {
-        public const string PackageGuidString = "64130770-3ABC-491E-B331-CB2A3D283AD0";
+        public const string PackageGuidString = "106458ed-d4dc-4300-88d3-21a569a60995";
 
-        protected override Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+        protected override async Task InitializeAsync(CancellationToken cancellationToken,
+            IProgress<ServiceProgressData> progress)
         {
-            ConfigureProject.Initialize(this);
-
-            return base.InitializeAsync(cancellationToken, progress);
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            await ConfigureProjectCommand.InitializeAsync(this);
         }
     }
 }

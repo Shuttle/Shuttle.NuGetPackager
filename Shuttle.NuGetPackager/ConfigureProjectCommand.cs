@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
@@ -9,44 +10,47 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Shuttle.NuGetPackager
 {
-    internal sealed class ConfigureProject
+    internal sealed class ConfigureProjectCommand
     {
-        const string Title = "Configure NuGet Project";
+        private const string Title = "Configure NuGet Project";
         public const int CommandId = 0x0100;
-        public static readonly Guid CommandSet = new Guid("aa40f306-40eb-446d-a5bb-1b89031eeba0");
         private static string _extensionPath;
-        private readonly Package _package;
+        public static readonly Guid CommandSet = new Guid("a3b3285d-a7f8-4c25-93ab-84f31e31a612");
+        private readonly AsyncPackage package;
 
-        private ConfigureProject(Package package)
+        private ConfigureProjectCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
-            _package = package ?? throw new ArgumentNullException(nameof(package));
+            this.package = package ?? throw new ArgumentNullException(nameof(package));
+            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
-            if (!(ServiceProvider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService))
-            {
-                return;
-            }
-
-            commandService.AddCommand(new MenuCommand(MenuItemCallback, new CommandID(CommandSet, CommandId)));
+            var menuCommandID = new CommandID(CommandSet, CommandId);
+            var menuItem = new MenuCommand(Execute, menuCommandID);
+            commandService.AddCommand(menuItem);
         }
 
-        public static ConfigureProject Instance { get; private set; }
-        private IServiceProvider ServiceProvider => _package;
+        public static ConfigureProjectCommand Instance { get; private set; }
+        private IAsyncServiceProvider ServiceProvider => package;
 
-        public static void Initialize(Package package)
+        public static async Task InitializeAsync(AsyncPackage package)
         {
-            Instance = new ConfigureProject(package);
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-            var codebase = typeof(ConfigureProject).Assembly.CodeBase;
+            var commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            Instance = new ConfigureProjectCommand(package, commandService);
+
+            var codebase = typeof(ConfigureProjectCommand).Assembly.CodeBase;
             var uri = new Uri(codebase, UriKind.Absolute);
 
             _extensionPath = Path.GetDirectoryName(uri.LocalPath);
         }
 
-        private void MenuItemCallback(object sender, EventArgs e)
+        private void Execute(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var invoked = false;
 
-            var dte = (DTE) ServiceProvider.GetService(typeof(DTE));
+            var dte = (DTE)ServiceProvider.GetServiceAsync(typeof(DTE)).Result;
 
             if (dte.ActiveSolutionProjects is object[] activeSolutionProjects)
             {
@@ -64,7 +68,7 @@ namespace Shuttle.NuGetPackager
             if (!invoked)
             {
                 VsShellUtilities.ShowMessageBox(
-                    ServiceProvider,
+                    package,
                     "This command may only be executed on a project.",
                     Title,
                     OLEMSGICON.OLEMSGICON_INFO,
@@ -88,7 +92,7 @@ namespace Shuttle.NuGetPackager
             if (Directory.Exists(packageFolder))
             {
                 VsShellUtilities.ShowMessageBox(
-                    ServiceProvider,
+                    package,
                     $"Package folder '{packageFolder}' already exists.",
                     Title,
                     OLEMSGICON.OLEMSGICON_INFO,
@@ -109,21 +113,28 @@ namespace Shuttle.NuGetPackager
 
                 if (packageFolderProjectItem == null)
                 {
-                    packageFolderProjectItem = project.ProjectItems.AddFromDirectory(Path.Combine(projectFolder, ".package"));
+                    packageFolderProjectItem =
+                        project.ProjectItems.AddFromDirectory(Path.Combine(projectFolder, ".package"));
                 }
 
                 CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll");
                 CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.targets");
                 ProcessBuildRelatedFile(project, view, packageFolder, "package.msbuild.template", "package.msbuild");
-                ProcessBuildRelatedFile(project, view, packageFolder, "AssemblyInfo.cs.template", "AssemblyInfo.cs.template");
+                ProcessBuildRelatedFile(project, view, packageFolder, "AssemblyInfo.cs.template",
+                    "AssemblyInfo.cs.template");
 
-                File.WriteAllText(Path.Combine(packageFolder, "package.nuspec.template"), GetNuspecTemplate(view, project));
+                File.WriteAllText(Path.Combine(packageFolder, "package.nuspec.template"),
+                    GetNuspecTemplate(view, project));
 
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "Shuttle.NuGetPackager.targets"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder,
+                    "Shuttle.NuGetPackager.MSBuild.dll"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder,
+                    "Shuttle.NuGetPackager.targets"));
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.msbuild"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.nuspec.template"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "AssemblyInfo.cs.template"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(
+                    Path.Combine(packageFolder, "package.nuspec.template"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder,
+                    "AssemblyInfo.cs.template"));
 
                 project.Save();
 
@@ -143,7 +154,8 @@ namespace Shuttle.NuGetPackager
             result.AppendLine();
             result.AppendLine("<package>");
             result.AppendLine("\t<metadata>");
-            result.AppendLine($"\t\t<id>{(view.ExplicitPackageName.Checked ? view.PackageName.Text : project.Name)}</id>");
+            result.AppendLine(
+                $"\t\t<id>{(view.ExplicitPackageName.Checked ? view.PackageName.Text : project.Name)}</id>");
             result.AppendLine("\t\t<version>#{SemanticVersion}#</version>");
             result.AppendLine($"\t\t<authors>{view.Authors.Text}</authors>");
             result.AppendLine($"\t\t<owners>{view.Owners.Text}</owners>");
@@ -164,12 +176,18 @@ namespace Shuttle.NuGetPackager
 
             if (view.LicenseType.SelectedIndex > 0)
             {
-                result.AppendLine($"\t\t<requireLicenseAcceptance>{view.RequireLicenseAcceptance.Checked.ToString().ToLower()}</requireLicenseAcceptance>");
+                result.AppendLine(
+                    $"\t\t<requireLicenseAcceptance>{view.RequireLicenseAcceptance.Checked.ToString().ToLower()}</requireLicenseAcceptance>");
             }
 
             if (view.HasIcon.Checked)
             {
                 result.AppendLine($"\t\t<icon>images\\{Path.GetFileName(view.IconPath.Text)}</icon>");
+            }
+
+            if (view.HasReadme.Checked)
+            {
+                result.AppendLine($"\t\t<readme>docs\\{Path.GetFileName(view.ReadmePath.Text)}</readme>");
             }
 
             if (!string.IsNullOrWhiteSpace(view.RepositoryUrl.Text))
@@ -183,7 +201,8 @@ namespace Shuttle.NuGetPackager
             }
 
             result.AppendLine($"\t\t<description>{view.Description.Text}</description>");
-            result.AppendLine($"\t\t<copyright>Copyright (c) #{{Year}}#, {(string.IsNullOrWhiteSpace(view.Owners.Text) ? view.Authors.Text : view.Owners.Text)}</copyright>");
+            result.AppendLine(
+                $"\t\t<copyright>Copyright (c) #{{Year}}#, {(string.IsNullOrWhiteSpace(view.Owners.Text) ? view.Authors.Text : view.Owners.Text)}</copyright>");
             result.AppendLine($"\t\t<tags>{view.Tags.Text}</tags>");
 
             result.AppendLine("\t\t<dependencies>");
@@ -197,7 +216,13 @@ namespace Shuttle.NuGetPackager
                 result.AppendLine($"\t\t<file src=\"{view.IconPath.Text}\" target=\"images\" />");
             }
 
-            if (((string)view.LicenseType.SelectedItem ?? string.Empty).Equals("File", StringComparison.InvariantCultureIgnoreCase))
+            if (view.HasReadme.Checked)
+            {
+                result.AppendLine($"\t\t<file src=\"{view.ReadmePath.Text}\" target=\"docs\" />");
+            }
+
+            if (((string)view.LicenseType.SelectedItem ?? string.Empty).Equals("File",
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 result.AppendLine($"\t\t<file src=\"{view.License.Text}\" target=\"\" />");
             }
@@ -254,7 +279,7 @@ namespace Shuttle.NuGetPackager
                         if (line.Contains("<TargetFrameworks>") || line.Contains("<TargetFramework>"))
                         {
                             result.AppendLine(
-                                "    <TargetFramework>netstandard2.0</TargetFramework>");
+                                "    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>");
                             result.AppendLine(
                                 "    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>");
                         }
@@ -284,11 +309,13 @@ namespace Shuttle.NuGetPackager
             }
             catch (Exception ex)
             {
-                Console.WriteLine($@"[CopyBuildRelatedFile] : could not copy '{sourceFileName}' tp '{targetFileName}' / exception = {ex.Message}");
+                Console.WriteLine(
+                    $@"[CopyBuildRelatedFile] : could not copy '{sourceFileName}' tp '{targetFileName}' / exception = {ex.Message}");
             }
         }
 
-        private static void ProcessBuildRelatedFile(Project project, ConfigureView view, string packageFolder, string sourceFileName, string targetFileName)
+        private static void ProcessBuildRelatedFile(Project project, ConfigureView view, string packageFolder,
+            string sourceFileName, string targetFileName)
         {
             var targetPath = Path.Combine(packageFolder, targetFileName);
 
@@ -303,7 +330,8 @@ namespace Shuttle.NuGetPackager
 
             var contents = File.ReadAllText(targetPath)
                 .Replace("#{PackageName}#", packageName)
-                .Replace("#{Owners}#", string.IsNullOrWhiteSpace(view.Owners.Text) ? view.Authors.Text : view.Owners.Text);
+                .Replace("#{Owners}#",
+                    string.IsNullOrWhiteSpace(view.Owners.Text) ? view.Authors.Text : view.Owners.Text);
 
             File.WriteAllText(targetPath, contents);
         }

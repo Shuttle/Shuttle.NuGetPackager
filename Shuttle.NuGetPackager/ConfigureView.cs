@@ -69,6 +69,11 @@ namespace Shuttle.NuGetPackager
                     ? Required
                     : string.Empty);
 
+            ErrorProvider.SetError(ReadmePath,
+                HasReadme.Checked && string.IsNullOrWhiteSpace(ReadmePath.Text)
+                    ? Required
+                    : string.Empty);
+
             if (HasErrors())
             {
                 return;
@@ -80,6 +85,11 @@ namespace Shuttle.NuGetPackager
         private bool HasErrors()
         {
             return ErrorProvider.ContainerControl.Controls.Cast<Control>().Any(c => ErrorProvider.GetError(c) != string.Empty);
+        }
+
+        private void HasReadme_CheckedChanged(object sender, EventArgs e)
+        {
+            ReadmePath.Enabled = HasReadme.Checked;
         }
     }
 }
