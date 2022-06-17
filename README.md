@@ -1,6 +1,6 @@
 # Shuttle.NuGetPackager
 
-This VS2017+ extension is used to configure a C# class library project for NuGet packaging allowing you to manage the versioning package.
+This VS2022+ extension is used to configure a C# class library project for NuGet packaging allowing you to manage the versioning package.
 
 ***Note***: This extension should only be applied to Visual Studio files that are in the new SDK format.
 

@@ -11,7 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuttle.NuGetPackager.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".package", ".package", "{3F34AD27-A9EB-48D1-9336-300FC185D665}"
 	ProjectSection(SolutionItems) = preProject
-		package.msbuild = package.msbuild
+		.package\package.msbuild = .package\package.msbuild
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07D53295-6E39-402B-9BA5-DC213E194E39}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global

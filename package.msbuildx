@@ -1,7 +1,0 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Package" ToolsVersion="15">
-  <Target Name="Package">
-    <MSBuild Projects="..\Shuttle.NuGetPackager.MSBuild\Shuttle.NuGetPackager.MSBuild.csproj" Targets="Rebuild" Properties="Configuration=Debug;Platform=AnyCPU;PostBuildEvent=" />
-    <MSBuild Projects="..\Shuttle.NuGetPackager\Shuttle.NuGetPackager.csproj" Targets="Rebuild" Properties="Configuration=Debug;Platform=AnyCPU;" />
-    <Copy SourceFiles="..\Shuttle.NuGetPackager\bin\Debug\Shuttle.NuGetPackager.vsix" DestinationFolder=".\release" SkipUnchangedFiles="false" />
-  </Target>
-</Project>
