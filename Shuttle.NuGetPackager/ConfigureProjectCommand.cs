@@ -91,9 +91,12 @@ namespace Shuttle.NuGetPackager
 
             if (Directory.Exists(packageFolder))
             {
+                CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll");
+                CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.targets");
+
                 VsShellUtilities.ShowMessageBox(
                     package,
-                    $"Package folder '{packageFolder}' already exists.",
+                    $"Package folder '{packageFolder}' already exists.  Files `Shuttle.NuGetPackager.MSBuild.dll` and `Shuttle.NuGetPackager.targets` have been copied.",
                     Title,
                     OLEMSGICON.OLEMSGICON_INFO,
                     OLEMSGBUTTON.OLEMSGBUTTON_OK,

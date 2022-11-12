@@ -35,7 +35,8 @@ namespace Shuttle.NuGetPackager.Tests
 
             Assert.IsTrue(contents.Contains("<dependency id=\"another.package\" version=\"[3.2.1]\" />"));
             Assert.IsTrue(contents.Contains("<dependency id=\"some-package\" version=\"[1.2.3]\" />"));
-            Assert.IsTrue(contents.Contains("<dependency id=\"prerelease-package\" version=\"[4.5.6]\" />"));
+            Assert.IsTrue(contents.Contains("<dependency id=\"prerelease-package-a\" version=\"[4.5.6-rc1]\" />"));
+            Assert.IsTrue(contents.Contains("<dependency id=\"prerelease-package-b\" version=\"[4.5.6-rc1.15]\" />"));
             Assert.IsTrue(contents.Contains("<dependency id=\"full-version.package\" version=\"[4.5.6.7000]\" />"));
 
             File.Delete(FilePathExtensions.BasePath(@".\files\set-nuget-dependency-versions-custom-test.txt"));
@@ -63,7 +64,8 @@ namespace Shuttle.NuGetPackager.Tests
 
             Assert.IsTrue(contents.Contains("<dependency id=\"another.package\" version=\"[3.2.1]\" />"));
             Assert.IsTrue(contents.Contains("<dependency id=\"some-package\" version=\"[1.2.3]\" />"));
-            Assert.IsTrue(contents.Contains("<dependency id=\"prerelease-package\" version=\"[4.5.6]\" />"));
+            Assert.IsTrue(contents.Contains("<dependency id=\"prerelease-package-a\" version=\"[4.5.6-rc1]\" />"));
+            Assert.IsTrue(contents.Contains("<dependency id=\"prerelease-package-b\" version=\"[4.5.6-rc1.15]\" />"));
             Assert.IsTrue(contents.Contains("<dependency id=\"full-version.package\" version=\"[4.5.6.7000]\" />"));
 
             File.Delete(FilePathExtensions.BasePath(@".\files\set-nuget-dependency-versions-default-test.txt"));

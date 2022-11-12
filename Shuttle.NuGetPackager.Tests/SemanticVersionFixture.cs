@@ -11,6 +11,9 @@ namespace Shuttle.NuGetPackager.Tests
         [TestCase("1.2.3+4", 1, 2, 3, "1.2.3", "", "4")]
         [TestCase("1.2.3-alpha1", 1, 2, 3, "1.2.3", "alpha1", "")]
         [TestCase("1.2.3-alpha1+4", 1, 2, 3, "1.2.3", "alpha1", "4")]
+        [TestCase("1.2.3-alpha1.4", 1, 2, 3, "1.2.3", "alpha1.4", "")]
+        [TestCase("1.2.3-alpha1.4+5", 1, 2, 3, "1.2.3", "alpha1.4", "5")]
+        [TestCase("1.2.3-beta.23+abc", 1, 2, 3, "1.2.3", "beta.23", "abc")]
         public void Should_be_able_to_parse(string value, int major, int minor, int patch, string versionCore, string prerelease, string buildMetadata)
         {
             SemanticVersion.Parser parser = null;

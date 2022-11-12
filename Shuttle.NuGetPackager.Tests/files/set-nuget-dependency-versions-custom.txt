@@ -1,6 +1,7 @@
 ﻿<dependencies>
 	<dependency id="another.package" version="[%another.package-version%]" />
 	<dependency id="some-package" version="[%some-package-version%]" />
-	<dependency id="prerelease-package" version="[%prerelease-package-version%]" />
+	<dependency id="prerelease-package-a" version="[%prerelease-package-a-version%]" />
+	<dependency id="prerelease-package-b" version="[%prerelease-package-b-version%]" />
 	<dependency id="full-version.package" version="[%full-version.package-version%]" />
 </dependencies>

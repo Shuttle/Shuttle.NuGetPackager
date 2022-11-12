@@ -25,13 +25,14 @@ namespace Shuttle.NuGetPackager.MSBuild.NuGet
 		    {
 		        var packageName = match.Groups["package"];
 		        var packageVersion = match.Groups["version"];
+		        var packagePrerelease = match.Groups["prerelease"];
 
 		        if (!packageName.Success || !packageVersion.Success)
 		        {
 		            continue;
 		        }
 
-		        AddPackage(new NugGetPackage(packageName.Value, packageVersion.Value));
+		        AddPackage(new NugGetPackage(packageName.Value, $"{packageVersion.Value}{(string.IsNullOrEmpty(packagePrerelease.Value) ? string.Empty : $"-{packagePrerelease.Value}")}"));
 		    }
 		}
 

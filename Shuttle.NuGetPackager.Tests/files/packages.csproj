@@ -4,7 +4,8 @@
     <PackageReference Include="another.package" Version="3.2.0" />
     <PackageReference Include="another.package" Version="3.2.1" />
     <PackageReference Include="full-version.package" Version="4.5.6.7000" />
-    <PackageReference Include="prerelease-package" Version="4.5.6-rc1" />
+    <PackageReference Include="prerelease-package-a" Version="4.5.6-rc1" />
+    <PackageReference Include="prerelease-package-b" Version="4.5.6-rc1.15" />
     <PackageReference Include="some-package" Version="1.2.3" />
   </ItemGroup>
 
