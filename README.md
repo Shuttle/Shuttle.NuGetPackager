@@ -6,7 +6,7 @@ This VS2022+ extension is used to configure a C# class library project for NuGet
 
 ## Installation
 
-You can download this extntion from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Shuttle.NuGetPackager).
+You can download this extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Shuttle.NuGetPackager).
 
 ## Usage
 

@@ -282,7 +282,7 @@ namespace Shuttle.NuGetPackager
                         if (line.Contains("<TargetFrameworks>") || line.Contains("<TargetFramework>"))
                         {
                             result.AppendLine(
-                                "    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>");
+                                "    <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>");
                             result.AppendLine(
                                 "    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>");
                         }
