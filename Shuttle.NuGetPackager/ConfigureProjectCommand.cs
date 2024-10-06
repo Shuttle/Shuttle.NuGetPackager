@@ -79,6 +79,8 @@ namespace Shuttle.NuGetPackager
 
         private void ConfigureBuildFolder(Project project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var projectFolder = Path.GetDirectoryName(project.Properties.Item("FullPath").Value.ToString());
 
             if (string.IsNullOrEmpty(projectFolder))
@@ -116,8 +118,7 @@ namespace Shuttle.NuGetPackager
 
                 if (packageFolderProjectItem == null)
                 {
-                    packageFolderProjectItem =
-                        project.ProjectItems.AddFromDirectory(Path.Combine(projectFolder, ".package"));
+                    packageFolderProjectItem = project.ProjectItems.AddFromDirectory(Path.Combine(projectFolder, ".package"));
                 }
 
                 CopyBuildRelatedFile(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll");
@@ -146,14 +147,15 @@ namespace Shuttle.NuGetPackager
 
         private string GetNuspecTemplate(ConfigureView view, Project project)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var result = new StringBuilder();
 
             result.AppendLine("<?xml version=\"1.0\"?>");
             result.AppendLine();
             result.AppendLine("<package>");
             result.AppendLine("\t<metadata>");
-            result.AppendLine(
-                $"\t\t<id>{(view.ExplicitPackageName.Checked ? view.PackageName.Text : project.Name)}</id>");
+            result.AppendLine($"\t\t<id>{(view.ExplicitPackageName.Checked ? view.PackageName.Text : project.Name)}</id>");
             result.AppendLine("\t\t<version>#{SemanticVersion}#</version>");
             result.AppendLine($"\t\t<authors>{view.Authors.Text}</authors>");
             result.AppendLine($"\t\t<owners>{view.Owners.Text}</owners>");
@@ -219,8 +221,7 @@ namespace Shuttle.NuGetPackager
                 result.AppendLine($"\t\t<file src=\"{view.ReadmePath.Text}\" target=\"docs\" />");
             }
 
-            if (((string)view.LicenseType.SelectedItem ?? string.Empty).Equals("File",
-                    StringComparison.InvariantCultureIgnoreCase))
+            if (((string)view.LicenseType.SelectedItem ?? string.Empty).Equals("File", StringComparison.InvariantCultureIgnoreCase))
             {
                 result.AppendLine($"\t\t<file src=\"{view.License.Text}\" target=\"\" />");
             }
@@ -234,6 +235,8 @@ namespace Shuttle.NuGetPackager
 
         private ProjectItem FindFolder(Project project, string name)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             ProjectItem result = null;
 
             foreach (ProjectItem projectItem in project.ProjectItems)
@@ -252,6 +255,8 @@ namespace Shuttle.NuGetPackager
 
         private static void ConfigureProjectFile(ConfigureView view, Project project, string projectFolder)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var projectFilePath = Path.Combine(projectFolder, project.FileName);
 
             if (!File.Exists(projectFilePath))
@@ -312,9 +317,10 @@ namespace Shuttle.NuGetPackager
             }
         }
 
-        private static void ProcessBuildRelatedFile(Project project, ConfigureView view, string packageFolder,
-            string sourceFileName, string targetFileName)
+        private static void ProcessBuildRelatedFile(Project project, ConfigureView view, string packageFolder, string sourceFileName, string targetFileName)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var targetPath = Path.Combine(packageFolder, targetFileName);
 
             if (File.Exists(targetPath))
