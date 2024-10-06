@@ -82,6 +82,10 @@ namespace Shuttle.NuGetPackager
             DialogResult = DialogResult.OK;
         }
 
+        public bool IsTargetFrameworkUnified => TargetFrameworkUnified.Checked;
+        public bool IsTargetFrameworkStandard => TargetFrameworkStandard.Checked;
+        public bool IsTargetFrameworkBoth => TargetFrameworkUnified.Checked && TargetFrameworkStandard.Checked;
+
         private bool HasErrors()
         {
             return ErrorProvider.ContainerControl.Controls.Cast<Control>().Any(c => ErrorProvider.GetError(c) != string.Empty);

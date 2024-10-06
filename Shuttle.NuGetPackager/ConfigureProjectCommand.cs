@@ -126,22 +126,17 @@ namespace Shuttle.NuGetPackager
                 ProcessBuildRelatedFile(project, view, packageFolder, "AssemblyInfo.cs.template",
                     "AssemblyInfo.cs.template");
 
-                File.WriteAllText(Path.Combine(packageFolder, "package.nuspec.template"),
-                    GetNuspecTemplate(view, project));
+                File.WriteAllText(Path.Combine(packageFolder, "package.nuspec.template"), GetNuspecTemplate(view, project));
 
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder,
-                    "Shuttle.NuGetPackager.MSBuild.dll"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder,
-                    "Shuttle.NuGetPackager.targets"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "Shuttle.NuGetPackager.MSBuild.dll"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "Shuttle.NuGetPackager.targets"));
                 packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.msbuild"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(
-                    Path.Combine(packageFolder, "package.nuspec.template"));
-                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder,
-                    "AssemblyInfo.cs.template"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "package.nuspec.template"));
+                packageFolderProjectItem.ProjectItems.AddFromFile(Path.Combine(packageFolder, "AssemblyInfo.cs.template"));
 
                 project.Save();
 
-                ConfigureProjectFile(project, projectFolder);
+                ConfigureProjectFile(view, project, projectFolder);
             }
             finally
             {
@@ -255,7 +250,7 @@ namespace Shuttle.NuGetPackager
             return result;
         }
 
-        private static void ConfigureProjectFile(Project project, string projectFolder)
+        private static void ConfigureProjectFile(ConfigureView view, Project project, string projectFolder)
         {
             var projectFilePath = Path.Combine(projectFolder, project.FileName);
 
@@ -281,10 +276,10 @@ namespace Shuttle.NuGetPackager
 
                         if (line.Contains("<TargetFrameworks>") || line.Contains("<TargetFramework>"))
                         {
-                            result.AppendLine(
-                                "    <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>");
-                            result.AppendLine(
-                                "    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>");
+                            var target = (view.IsTargetFrameworkBoth ? "TargetFrameworks" : "TargetFramework");
+
+                            result.AppendLine($"    <{target}>{(view.IsTargetFrameworkStandard ? "netstandard2.1" : string.Empty)}{(view.IsTargetFrameworkBoth ? ";" : string.Empty)}{(view.IsTargetFrameworkUnified ? "net6.0" : string.Empty)}</{target}>");
+                            result.AppendLine("    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>");
                         }
                         else
                         {

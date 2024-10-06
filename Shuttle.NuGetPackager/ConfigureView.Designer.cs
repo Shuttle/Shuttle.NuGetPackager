@@ -58,7 +58,12 @@
             this.label9 = new System.Windows.Forms.Label();
             this.ReadmePath = new System.Windows.Forms.TextBox();
             this.HasReadme = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TargetFrameworkUnified = new System.Windows.Forms.RadioButton();
+            this.TargetFrameworkStandard = new System.Windows.Forms.RadioButton();
+            this.TargetFrameworkBoth = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PackageName
@@ -196,7 +201,7 @@
             // HasIcon
             // 
             this.HasIcon.AutoSize = true;
-            this.HasIcon.Location = new System.Drawing.Point(272, 159);
+            this.HasIcon.Location = new System.Drawing.Point(272, 158);
             this.HasIcon.Name = "HasIcon";
             this.HasIcon.Size = new System.Drawing.Size(75, 17);
             this.HasIcon.TabIndex = 17;
@@ -207,19 +212,19 @@
             // Cancel
             // 
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Location = new System.Drawing.Point(432, 316);
+            this.Cancel.Location = new System.Drawing.Point(432, 397);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(80, 32);
-            this.Cancel.TabIndex = 26;
+            this.Cancel.TabIndex = 27;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
             // Ok
             // 
-            this.Ok.Location = new System.Drawing.Point(336, 316);
+            this.Ok.Location = new System.Drawing.Point(336, 397);
             this.Ok.Name = "Ok";
             this.Ok.Size = new System.Drawing.Size(80, 32);
-            this.Ok.TabIndex = 25;
+            this.Ok.TabIndex = 26;
             this.Ok.Text = "Ok";
             this.Ok.UseVisualStyleBackColor = true;
             this.Ok.Click += new System.EventHandler(this.OkButton_Click);
@@ -231,7 +236,7 @@
             // RequireLicenseAcceptance
             // 
             this.RequireLicenseAcceptance.AutoSize = true;
-            this.RequireLicenseAcceptance.Location = new System.Drawing.Point(272, 112);
+            this.RequireLicenseAcceptance.Location = new System.Drawing.Point(272, 111);
             this.RequireLicenseAcceptance.Name = "RequireLicenseAcceptance";
             this.RequireLicenseAcceptance.Size = new System.Drawing.Size(165, 17);
             this.RequireLicenseAcceptance.TabIndex = 16;
@@ -296,10 +301,10 @@
             this.ReadmePath.Size = new System.Drawing.Size(240, 20);
             this.ReadmePath.TabIndex = 22;
             // 
-            // HasReadMe
+            // HasReadme
             // 
             this.HasReadme.AutoSize = true;
-            this.HasReadme.Location = new System.Drawing.Point(272, 207);
+            this.HasReadme.Location = new System.Drawing.Point(272, 206);
             this.HasReadme.Name = "HasReadme";
             this.HasReadme.Size = new System.Drawing.Size(117, 17);
             this.HasReadme.TabIndex = 20;
@@ -307,13 +312,58 @@
             this.HasReadme.UseVisualStyleBackColor = true;
             this.HasReadme.CheckedChanged += new System.EventHandler(this.HasReadme_CheckedChanged);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.TargetFrameworkBoth);
+            this.groupBox1.Controls.Add(this.TargetFrameworkStandard);
+            this.groupBox1.Controls.Add(this.TargetFrameworkUnified);
+            this.groupBox1.Location = new System.Drawing.Point(272, 300);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(240, 91);
+            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Target Framework";
+            // 
+            // TargetFrameworkUnified
+            // 
+            this.TargetFrameworkUnified.AutoSize = true;
+            this.TargetFrameworkUnified.Checked = true;
+            this.TargetFrameworkUnified.Location = new System.Drawing.Point(6, 19);
+            this.TargetFrameworkUnified.Name = "TargetFrameworkUnified";
+            this.TargetFrameworkUnified.Size = new System.Drawing.Size(116, 17);
+            this.TargetFrameworkUnified.TabIndex = 0;
+            this.TargetFrameworkUnified.TabStop = true;
+            this.TargetFrameworkUnified.Text = "Unified (.NET 6.0+)";
+            this.TargetFrameworkUnified.UseVisualStyleBackColor = true;
+            // 
+            // TargetFrameworkStandard
+            // 
+            this.TargetFrameworkStandard.AutoSize = true;
+            this.TargetFrameworkStandard.Location = new System.Drawing.Point(6, 42);
+            this.TargetFrameworkStandard.Name = "TargetFrameworkStandard";
+            this.TargetFrameworkStandard.Size = new System.Drawing.Size(92, 17);
+            this.TargetFrameworkStandard.TabIndex = 1;
+            this.TargetFrameworkStandard.Text = "Standard (2.1)";
+            this.TargetFrameworkStandard.UseVisualStyleBackColor = true;
+            // 
+            // TargetFrameworkBoth
+            // 
+            this.TargetFrameworkBoth.AutoSize = true;
+            this.TargetFrameworkBoth.Location = new System.Drawing.Point(6, 65);
+            this.TargetFrameworkBoth.Name = "TargetFrameworkBoth";
+            this.TargetFrameworkBoth.Size = new System.Drawing.Size(47, 17);
+            this.TargetFrameworkBoth.TabIndex = 2;
+            this.TargetFrameworkBoth.Text = "Both";
+            this.TargetFrameworkBoth.UseVisualStyleBackColor = true;
+            // 
             // ConfigureView
             // 
             this.AcceptButton = this.Ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
-            this.ClientSize = new System.Drawing.Size(529, 364);
+            this.ClientSize = new System.Drawing.Size(529, 435);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.ReadmePath);
             this.Controls.Add(this.HasReadme);
@@ -347,6 +397,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configure NuGet Project";
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,5 +433,9 @@
         private System.Windows.Forms.Label label9;
         public System.Windows.Forms.TextBox ReadmePath;
         public System.Windows.Forms.CheckBox HasReadme;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton TargetFrameworkBoth;
+        private System.Windows.Forms.RadioButton TargetFrameworkStandard;
+        private System.Windows.Forms.RadioButton TargetFrameworkUnified;
     }
 }

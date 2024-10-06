@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="Shuttle.NuGetPackager.c7f59d52-11d9-493c-887d-49250bc95a44" Version="1.2" Language="en-US" Publisher="Shuttle" />
+        <Identity Id="Shuttle.NuGetPackager.c7f59d52-11d9-493c-887d-49250bc95a44" Version="1.3" Language="en-US" Publisher="Shuttle" />
         <DisplayName>Shuttle.NuGetPackager</DisplayName>
         <Description xml:space="preserve">Visual Studio 2022+ extension used to configure a C# class library project for NuGet package development.  The project must be in the SDK format.</Description>
         <Icon>Resources\logo-200x200.png</Icon>
