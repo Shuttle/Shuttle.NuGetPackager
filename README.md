@@ -1,5 +1,9 @@
 # Shuttle.NuGetPackager
 
+> [!WARNING]
+> This repository is no longer maintained as NuGet packages can be managed using `dotnet`.
+> The [Shuttle.Packager](https://github.com/Shuttle/Shuttle.Packager) solution may be an option to assist in managing packges.
+
 This VS2022+ extension is used to configure a C# class library project for NuGet packaging allowing you to manage the versioning package.
 
 ***Note***: This extension should only be applied to Visual Studio files that are in the new SDK format.
